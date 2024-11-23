@@ -20,8 +20,10 @@ const CategoryListPage = () => {
     }, [fetchingCategoriesItem]);
 
     const deletingCategory = useCallback(async (categoryId: string) => {
-        await dispatch(deleteCategory(categoryId))
-        await fetchingCategoriesItem()
+        if(window.confirm('Do you want to delete this category?')) {
+            await dispatch(deleteCategory(categoryId))
+            await fetchingCategoriesItem();
+        }
     }, [fetchingCategoriesItem])
 
     return (

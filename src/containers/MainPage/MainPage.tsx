@@ -18,8 +18,10 @@ const MainPage = () => {
     }, [fetchingTransactions]);
 
     const handleDeleteTransaction = useCallback(async(transactionId: string) => {
-        await dispatch(deleteTransaction(transactionId));
-        await fetchingTransactions()
+        if (window.confirm('Do you want to delete this transaction?')) {
+            await dispatch(deleteTransaction(transactionId));
+            await fetchingTransactions()
+        }
     }, [fetchingTransactions])
 
     const totalAmount = transactions.reduce((acc, transaction) => {
