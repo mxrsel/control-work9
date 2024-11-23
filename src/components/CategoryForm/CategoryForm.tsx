@@ -7,6 +7,7 @@ interface Props {
     addNewCategory: (category: ApiCategory) => void;
     existingCategory?: CategoryMutation;
     isLoading?: boolean
+    isEdit?: boolean
 }
 
 const initialState: CategoryMutation = {
@@ -14,7 +15,7 @@ const initialState: CategoryMutation = {
     type: 'income'
 }
 
-const CategoryForm: React.FC<Props> = ({addNewCategory, existingCategory = initialState, isLoading = false}) => {
+const CategoryForm: React.FC<Props> = ({addNewCategory, existingCategory = initialState, isLoading = false, isEdit}) => {
     const [newCategory, setNewCategory] = useState(existingCategory)
 
     const handleChangeCategory = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -35,6 +36,12 @@ const CategoryForm: React.FC<Props> = ({addNewCategory, existingCategory = initi
             addNewCategory({
                 ...newCategory,
             })
+            if (!isEdit) {
+                setNewCategory({
+                    name: '',
+                    type: 'income'
+                })
+            }
         }
     }
 
@@ -43,6 +50,7 @@ const CategoryForm: React.FC<Props> = ({addNewCategory, existingCategory = initi
             {isLoading ? <Spinner/>
                 :
                 <form className='form-control' onSubmit={onHandleSubmit}>
+                    <h1>{isEdit ? 'Edit' : 'Add New'} Category</h1>
                     <div className='group-form'>
                         <label htmlFor='category'>Type:
                             <select
@@ -71,7 +79,10 @@ const CategoryForm: React.FC<Props> = ({addNewCategory, existingCategory = initi
                         </label>
                     </div>
 
-                    <button className='btn btn-dark'>Add Category</button>
+                    {isEdit ?
+                         <button className='btn btn-dark'>Add Category</button>
+                             :
+                         <button className='btn btn-dark'>Edit Category</button>}
                     <NavLink className='btn btn-danger' to='/category'>Cancel</NavLink>
                 </form>
             }

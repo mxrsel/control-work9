@@ -28,4 +28,21 @@ export const createdCategory = createAsyncThunk<void, ApiCategory>(
     async(category) => {
         await axiosApi.post('/categories.json', {...category})
     }
+);
+
+export const getOneCategoryById = createAsyncThunk<ApiCategory | null, string>(
+    'categories/getOneCategoryById',
+    async (categoryId: string) => {
+        const response = await axiosApi<ApiCategory | null>(`/categories/${categoryId}.json`);
+        if(!response.data) return null;
+
+        return response.data
+    }
+);
+
+export const changeCategory = createAsyncThunk<void, {categoryId: string, category: ApiCategory}>(
+    '/categories/changeCategory',
+    async({categoryId, category}) => {
+        await axiosApi.put(`/categories/${categoryId}.json`, {...category})
+    }
 )
