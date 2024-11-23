@@ -36,8 +36,10 @@ const TransactionForm: React.FC<Props> = ({addNewTransaction, existingTransactio
         if(newTransaction.amount === 0) {
             alert('Enter amount!')
         } else {
+
             addNewTransaction({
                 ...newTransaction,
+                amount: type === 'expense' ? -Math.abs(newTransaction.amount) : newTransaction.amount,
                 createdAt: new Date().toISOString()
             });
         }
@@ -54,7 +56,7 @@ const TransactionForm: React.FC<Props> = ({addNewTransaction, existingTransactio
                                 id='type'
                                 name='type'
                                 value={type}
-                                onChange={() => setType(type)}
+                                onChange={(event) => setType(event.target.value as 'income' | 'expense')}
                                 className='form-select'>
                                 <option value='income'>Income</option>
                                 <option value='expense'>Expense</option>
@@ -75,7 +77,7 @@ const TransactionForm: React.FC<Props> = ({addNewTransaction, existingTransactio
                             >
                                 <option value=''>Select Category</option>
                                 {categories.map((category) => (
-                                    <option key={category.id} value={category.id}>{category.name}</option>
+                                    <option key={category.id} value={category.name}>{category.name}</option>
                                 ))}
                             </select>
                         </label>
@@ -93,6 +95,7 @@ const TransactionForm: React.FC<Props> = ({addNewTransaction, existingTransactio
                                 onChange={handleChangeTransaction}/>
                         </label>
                     </div>
+                    <button className='btn btn-dark'>Add Transaction</button>
                 </form>
             }
         </>

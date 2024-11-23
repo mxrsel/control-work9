@@ -1,8 +1,8 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {ApiTransaction, Transaction, TransactionList} from "../../types.ts";
+import {ApiTransaction, TransactionInfo, TransactionList} from "../../types.ts";
 import axiosApi from "../../axiosApi.ts";
 
-export const fetchTransactions = createAsyncThunk<Transaction[], void>(
+export const fetchTransactions = createAsyncThunk<TransactionInfo[], void>(
     'transactions/fetchTransactions',
     async() => {
         const response: {data: TransactionList | null} = await axiosApi('/transactions.json');
@@ -26,5 +26,12 @@ export const createNewTransaction = createAsyncThunk<void, ApiTransaction>(
     'transactions/createNewTransaction',
     async(transaction) => {
         await axiosApi.post('/transactions.json', {...transaction})
+    }
+);
+
+export const deleteTransaction = createAsyncThunk(
+    '/transactions/deleteTransaction',
+    async(transactionId: string) => {
+        await axiosApi.delete(`/transactions/${transactionId}.json`);
     }
 )

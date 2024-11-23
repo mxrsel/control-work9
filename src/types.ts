@@ -15,7 +15,7 @@ export interface CategoryList {
     [id: string]: ApiCategory
 }
 
-export interface Transaction {
+export interface TransactionInfo {
     id: string;
     category: string;
     amount: number;

@@ -83,7 +83,7 @@ const CategoryForm: React.FC<Props> = ({addNewCategory, existingCategory = initi
                          <button className='btn btn-dark'>Add Category</button>
                              :
                          <button className='btn btn-dark'>Edit Category</button>}
-                    <NavLink className='btn btn-danger' to='/category'>Cancel</NavLink>
+                    <NavLink className='btn btn-danger' to='/categories'>Cancel</NavLink>
                 </form>
             }
         </>

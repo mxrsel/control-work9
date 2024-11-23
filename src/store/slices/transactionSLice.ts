@@ -1,15 +1,17 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {Transaction} from "../../types.ts";
-import {createNewTransaction, fetchTransactions} from "../thunks/transactionThunk.ts";
+import {TransactionInfo} from "../../types.ts";
+import {createNewTransaction, deleteTransaction, fetchTransactions} from "../thunks/transactionThunk.ts";
 
 interface TransactionState {
-    transaction: Transaction[],
+    transaction: TransactionInfo[],
     isLoading: boolean;
+    isDeleteLoading: boolean | string
     isError: boolean
 }
 
 const initialState: TransactionState = {
     transaction: [],
+    isDeleteLoading: false,
     isLoading: false,
     isError: false
 }
@@ -26,7 +28,7 @@ const transactionSLice = createSlice({
                     state.isError = false
                 })
             .addCase(
-                fetchTransactions.fulfilled, (state, action: PayloadAction<Transaction[]>) => {
+                fetchTransactions.fulfilled, (state, action: PayloadAction<TransactionInfo[]>) => {
                     state.isLoading = false
                     state.transaction = action.payload;
                 })
@@ -46,6 +48,20 @@ const transactionSLice = createSlice({
                 })
             .addCase(
                 createNewTransaction.rejected, (state) => {
+                    state.isLoading = false
+                    state.isError = true
+                })
+            .addCase(
+                deleteTransaction.pending, (state, {meta}) => {
+                    state.isDeleteLoading = meta.arg;
+                    state.isError = false
+                })
+            .addCase(
+                deleteTransaction.fulfilled, (state) => {
+                    state.isLoading = false
+                })
+            .addCase(
+                deleteTransaction.rejected, (state) => {
                     state.isLoading = false
                     state.isError = true
                 })
