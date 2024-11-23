@@ -7,6 +7,7 @@ interface Props {
     addNewTransaction: (transaction: ApiTransaction) => void;
     existingTransaction?: TransactionMutation;
     isLoading?: boolean
+    isEdit?: boolean
 }
 
 const initialState: TransactionMutation = {
@@ -15,7 +16,7 @@ const initialState: TransactionMutation = {
     createdAt: '',
 }
 
-const TransactionForm: React.FC<Props> = ({addNewTransaction, existingTransaction = initialState, isLoading = false}) => {
+const TransactionForm: React.FC<Props> = ({addNewTransaction, existingTransaction = initialState, isLoading = false, isEdit = false}) => {
     const [newTransaction, setNewTransaction] = useState(existingTransaction);
     const [type, setType] = useState<'income' | 'expense'>('income');
     const categories = useAppSelector((state) => state.category.category);
@@ -36,12 +37,18 @@ const TransactionForm: React.FC<Props> = ({addNewTransaction, existingTransactio
         if(newTransaction.amount === 0) {
             alert('Enter amount!')
         } else {
-
             addNewTransaction({
                 ...newTransaction,
                 amount: type === 'expense' ? -Math.abs(newTransaction.amount) : newTransaction.amount,
                 createdAt: new Date().toISOString()
             });
+            if (!isEdit) {
+                setNewTransaction({
+                    category: '',
+                    amount: 0,
+                    createdAt: '',
+                })
+            }
         }
     }
     return (
@@ -49,6 +56,8 @@ const TransactionForm: React.FC<Props> = ({addNewTransaction, existingTransactio
             {isLoading ? <Spinner/>
                 :
                 <form className='form-control' onSubmit={handleSubmit}>
+                    <h1>{isEdit ? 'Edit' : 'Add New'} Transaction</h1>
+
                     <div className='group-form'>
                         <label>
                             Type:
@@ -95,7 +104,10 @@ const TransactionForm: React.FC<Props> = ({addNewTransaction, existingTransactio
                                 onChange={handleChangeTransaction}/>
                         </label>
                     </div>
-                    <button className='btn btn-dark'>Add Transaction</button>
+                    {isEdit ?
+                        <button className='btn btn-dark'>Add Transaction</button>
+                        :
+                        <button className='btn btn-dark'>Edit Transaction</button>}
                 </form>
             }
         </>

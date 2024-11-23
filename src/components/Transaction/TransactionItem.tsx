@@ -17,7 +17,7 @@ const TransactionItem: React.FC<Props> = ({transaction, onDelete}) => {
 
             <div>
                 <strong className='me-2'>{transaction.amount}</strong>
-                <NavLink className='btn btn-success me-2' to='/editTransaction'>Edit</NavLink>
+                <NavLink className='btn btn-success me-2' to={`/editTransaction/${transaction.id}`}>Edit</NavLink>
                 <button className='btn btn-danger' onClick={onDelete}>Delete</button>
             </div>
         </div>

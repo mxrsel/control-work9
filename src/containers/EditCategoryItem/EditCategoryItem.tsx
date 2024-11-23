@@ -31,7 +31,7 @@ const EditCategoryItem = () => {
 
     return category && (
         <div>
-            <CategoryForm addNewCategory={editCategory} existingCategory={category} isLoading={loading}/>
+            <CategoryForm addNewCategory={editCategory} existingCategory={category} isLoading={loading} isEdit/>
         </div>
     );
 };
