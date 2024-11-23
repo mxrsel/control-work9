@@ -59,11 +59,11 @@ const CategoryForm: React.FC<Props> = ({addNewCategory, existingCategory = initi
                     </div>
 
                     <div className='form-group'>
-                        <label htmlFor='category'>Category:
+                        <label htmlFor='name'>Category:
                             <input
                                 type='text'
-                                name='category'
-                                id='category'
+                                name='name'
+                                id='name'
                                 required
                                 value={newCategory.name}
                                 onChange={handleChangeCategory}
