@@ -1,9 +1,12 @@
+import Layout from "./components/Layout/Layout.tsx";
 
 const App = () => {
     return (
-        <div>
+        <>
+            <Layout>
 
-        </div>
+            </Layout>
+        </>
     );
 };
 
