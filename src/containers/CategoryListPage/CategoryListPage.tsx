@@ -1,6 +1,6 @@
 import {useCallback, useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
-import {fetchCategories} from "../../store/thunks/categoryThunk.ts";
+import {deleteCategory, fetchCategories} from "../../store/thunks/categoryThunk.ts";
 import Spinner from "../../components/UI/Spinner/Spinner.tsx";
 import Category from "../../components/Category/Category.tsx";
 import {NavLink} from "react-router-dom";
@@ -19,6 +19,11 @@ const CategoryListPage = () => {
         void fetchingCategoriesItem()
     }, [fetchingCategoriesItem]);
 
+    const deletingCategory = useCallback(async (categoryId: string) => {
+        await dispatch(deleteCategory(categoryId))
+        await fetchingCategoriesItem()
+    }, [fetchingCategoriesItem])
+
     return (
         <>
             <header className='d-flex justify-content-between align-items-center mb-3'>
@@ -30,7 +35,7 @@ const CategoryListPage = () => {
             <div className='row'>
                 <div className='col'>
                     {categories.length > 0 ? (
-                        <Category categories={categories} />
+                        <Category categories={categories} deletedCategory={deletingCategory}/>
                         ) : (
                             <p>No categories yet</p>
                         )

@@ -14,3 +14,22 @@ export type ApiCategory = Omit<CategoryMutation, 'id'>;
 export interface CategoryList {
     [id: string]: ApiCategory
 }
+
+export interface Transaction {
+    id: string;
+    category: string;
+    amount: number;
+    createdAt: string;
+}
+
+export interface TransactionMutation {
+    category: string;
+    amount: number;
+    createdAt: string;
+}
+
+export type ApiTransaction = Omit<TransactionMutation, 'id'>;
+
+export interface TransactionList {
+    [id: string]: ApiTransaction
+}

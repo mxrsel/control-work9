@@ -1,11 +1,18 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ApiCategory, CategoryInfo} from "../../types.ts";
-import {changeCategory, createdCategory, fetchCategories, getOneCategoryById} from "../thunks/categoryThunk.ts";
+import {
+    changeCategory,
+    createdCategory,
+    deleteCategory,
+    fetchCategories,
+    getOneCategoryById
+} from "../thunks/categoryThunk.ts";
 
 interface CategoryState {
 category: CategoryInfo[];
 oneCategoryItem: ApiCategory | null
 isLoading: boolean;
+isDeleteCategory: boolean | string
 isError: boolean;
 }
 
@@ -13,6 +20,7 @@ const initialState: CategoryState = {
     category: [],
     oneCategoryItem: null,
     isLoading: false,
+    isDeleteCategory: false,
     isError: false,
 }
 
@@ -79,6 +87,21 @@ const categorySlice = createSlice({
                 })
             .addCase(
                 changeCategory.rejected, (state) => {
+                    state.isLoading = false
+                    state.isError = true
+                })
+            .addCase(
+                deleteCategory.pending, (state, {meta}) => {
+                    state.isDeleteCategory = meta.arg ;
+                    state.isError = false
+                })
+            .addCase(
+                deleteCategory.fulfilled, (state) => {
+                    state.isLoading = false
+                    state.oneCategoryItem = null
+                })
+            .addCase(
+                deleteCategory.rejected, (state) => {
                     state.isLoading = false
                     state.isError = true
                 })

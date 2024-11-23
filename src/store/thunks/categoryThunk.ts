@@ -45,4 +45,11 @@ export const changeCategory = createAsyncThunk<void, {categoryId: string, catego
     async({categoryId, category}) => {
         await axiosApi.put(`/categories/${categoryId}.json`, {...category})
     }
+);
+
+export const deleteCategory = createAsyncThunk(
+    'categories/deleteCategory',
+    async(categoryId: string) => {
+        await axiosApi.delete(`/categories/${categoryId}.json`);
+    }
 )
