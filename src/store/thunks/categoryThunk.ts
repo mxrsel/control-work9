@@ -1,6 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import axiosApi from "../../axiosApi.ts";
-import {Category, CategoryList} from "../../types.ts";
+import {ApiCategory, Category, CategoryList} from "../../types.ts";
 
 export const fetchCategories = createAsyncThunk<Category[], void>(
     'categories/fetchCategories',
@@ -20,5 +20,12 @@ export const fetchCategories = createAsyncThunk<Category[], void>(
         });
         return newCategory
 
+    }
+);
+
+export const createdCategory = createAsyncThunk<void, ApiCategory>(
+    'categories/createdCategory',
+    async(category) => {
+        await axiosApi.post('/categories.json', {...category})
     }
 )
